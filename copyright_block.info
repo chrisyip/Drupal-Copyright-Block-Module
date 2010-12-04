@@ -1,0 +1,6 @@
+; copyright_block.info
+; a module by Mark Ewers | mark.ewers@gmail.com | www.bigdogmoe.com
+name = Copyright block
+description = Creates a block with a copyright notice
+package = "Administration"
+core = 6.x
