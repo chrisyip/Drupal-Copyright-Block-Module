@@ -6,10 +6,10 @@ The Drupal Copyright Block menu module displays copyright information in a block
 - the name of the copyright holder
 
 For a full description of the module, visit the project page:
-  http://tbd
+  https://github.com/MarkEWERS/Drupal-Copyright-Block-Module
 
 To submit bug reports and feature suggestions, or to track changes:
-	http://tbd
+	https://github.com/MarkEWERS/Drupal-Copyright-Block-Module
 
 
 -- REQUIREMENTS --
