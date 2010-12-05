@@ -23,7 +23,7 @@ function copyright_block_block($op = 'list', $delta = '', $edit = array()) {
 	        '#type' => 'textfield',
 	        '#title' => t('Initial copyright year'),
 	        '#size' => 4,
-	        '#description' => t('The first year in the span of years covered by copyright. Leave this field blank to list the current year only.'),
+	        '#description' => t('The first year in the span of years covered by copyright. Set this to the current year to display the current year only, instead of a range of years.'),
 	        '#default_value' => variable_get('copyright_block_year',  date("Y", time ())),
 	      );
 			  $form['title'] = array(
