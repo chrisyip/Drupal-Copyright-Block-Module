@@ -3,4 +3,4 @@
 name = Copyright block
 description = Creates a block with a copyright notice
 package = "Administration"
-core = 6.x
+core = 7.x
