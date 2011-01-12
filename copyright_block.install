@@ -2,5 +2,5 @@
 function copyright_block_disable() {
 	variable_del('copyright_block_year');
   variable_del('copyright_block_name');
-	//db_query("DELETE FROM {blocks} WHERE module = '%s' AND delta = '%s'", 'copyright_block', 'copyright_block');
+	db_query("DELETE FROM {block} WHERE module = '%s' AND delta = '%s'", 'copyright_block', 'copyright_block');
 }
