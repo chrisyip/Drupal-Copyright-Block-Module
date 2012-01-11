@@ -1,63 +1,71 @@
 <?php
-function copyright_block_block($op = 'list', $delta = '', $edit = array()) {
-	$sitename = variable_get('site_name', '');
-	$default_name = variable_get('copyright_block_name', $sitename) == $sitename ? '' : variable_get('copyright_block_name', '');
-  switch ($op) {
-    case 'list':
-      $blocks['copyright_block'] = array(
-        'info'       => t('Copyright information'),
-        'title'       => t('<none>'),
-      );
-      return $blocks;
-    case 'configure':
-      $form = array();
-      if ($delta == 'copyright_block') {
-        $form['copyright_block_name'] = array(
-          '#type' => 'textfield',
-          '#title' => t('Copyright holder'),
-          '#size' => 30,
-          '#description' => t('Leave this field empty to use the site name as copyright holder.'),
-          '#default_value' => $default_name,
-        );
-	      $form['copyright_block_year'] = array(
-	        '#type' => 'textfield',
-	        '#title' => t('Initial copyright year'),
-	        '#size' => 4,
-	        '#description' => t('The first year in the span of years covered by copyright. Set this to the current year to display the current year only, instead of a range of years.'),
-	        '#default_value' => variable_get('copyright_block_year',  date("Y", time ())),
-	      );
-			  $form['title'] = array(
-	        '#type' => 'textfield',
-	        '#title' => t('Block Title'),
-	        '#size' => 30,
-	        '#description' => t('Override the default title for the block. Use <none> to display no title, or leave blank to use the default block title.'),
-	        '#default_value' => t("<none>"),
-	      );
-	    }
-      return $form;
-    case 'save':
-      if ($delta == 'copyright_block') {
-        variable_set('copyright_block_name', $edit['copyright_block_name'] ? check_plain($edit['copyright_block_name']) : $sitename);
-        variable_set('copyright_block_year', check_plain($edit['copyright_block_year']));
-      }
-      return;
-    case 'view':
-      switch ($delta) {
-        case 'copyright_block':
-          $block['subject'] = t('Copyright block');
-          $block['content'] = copyright_block_contents();
-          break;
-      }
-      return $block;
-  }
-}
-function copyright_block_contents() {
-	$output = '<span class="copyright">&copy; ';
-	$copy_start = variable_get('copyright_block_year',  date("Y", time ()));
-	$sitename = variable_get('copyright_block_name',  variable_get('site_name', ''));
-	$this_year = date("Y", time ());
+    function copyright_block_block($op = 'list', $delta = '', $edit = array()) {
+        $sitename = variable_get('site_name', '');
+        $default_name = variable_get('copyright_block_name', $sitename) == $sitename ? '' : variable_get('copyright_block_name', '');
+        switch ($op) {
+            case 'list':
+                $blocks['copyright_block'] = array(
+                    'info'       => t('Copyright information'),
+                    'title'       => t('<none>'),
+                );
+                return $blocks;
+            case 'configure':
+                $form = array();
+                if ($delta == 'copyright_block') {
+                    $form['copyright_block_name'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Copyright holder'),
+                        '#size' => 30,
+                        '#description' => t('Leave this field empty to use the site name as copyright holder.'),
+                        '#default_value' => $default_name,
+                    );
+                    $form['copyright_block_year'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Initial copyright year'),
+                        '#size' => 4,
+                        '#description' => t('The first year in the span of years covered by copyright. Set this to the current year to display the current year only, instead of a range of years.'),
+                        '#default_value' => variable_get('copyright_block_year',  date("Y", time ())),
+                    );
+                    $form['title'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Block Title'),
+                        '#size' => 30,
+                        '#description' => t('Override the default title for the block. Use <none> to display no title, or leave blank to use the default block title.'),
+                        '#default_value' => t("<none>"),
+                    );
+                    $form['copyright_block_separator'] = array(
+                        '#type' => 'checkbox',
+                        '#title' => t('Use comma as separator'),
+                        '#description' => t('Check this checkbox to add a comma after year(s).'),
+                        '#default_value' => variable_get('copyright_block_separator'),
+                    );
+                }
+                return $form;
+            case 'save':
+                if ($delta == 'copyright_block') {
+                    variable_set('copyright_block_name', $edit['copyright_block_name'] ? check_plain($edit['copyright_block_name']) : $sitename);
+                    variable_set('copyright_block_year', check_plain($edit['copyright_block_year']));
+                    variable_set('copyright_block_separator', check_plain($edit['copyright_block_separator']));
+                }
+                return;
+            case 'view':
+                switch ($delta) {
+                    case 'copyright_block':
+                        $block['subject'] = t('Copyright block');
+                        $block['content'] = copyright_block_contents();
+                        break;
+                }
+                return $block;
+        }
+    }
+    function copyright_block_contents() {
+        $output = '<span class="copyright">&copy; ';
+        $copy_start = variable_get('copyright_block_year',  date("Y", time ()));
+        $sitename = variable_get('copyright_block_name',  variable_get('site_name', ''));
+        $comma = variable_get('copyright_block_separator') ? ', ' : ' ';
+        $this_year = date("Y", time ());
 
-	$output .= ($copy_start == $this_year ? $this_year : $copy_start . ' - ' . $this_year) . ', '. $sitename;
-	$output .= '</span>';
-  return $output;
-}
+        $output .= ($copy_start == $this_year ? $this_year : $copy_start . ' - ' . $this_year) . $comma . $sitename;
+        $output .= '</span>';
+        return $output;
+    }
